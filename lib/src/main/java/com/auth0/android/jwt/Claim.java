@@ -31,13 +31,15 @@ public class Claim {
      * If the value isn't of type Boolean or it can't be converted to a Boolean, null will be returned.
      *
      * @return the value as a Boolean or null.
+     * @throws DecodeException if the value can't be converted to a Boolean.
      */
     @Nullable
-    public Boolean asBoolean() {
-        if (!value.isJsonPrimitive()) {
-            return null;
+    public Boolean asBoolean() throws DecodeException {
+        try {
+            return value.getAsBoolean();
+        } catch (Exception e) {
+            throw new DecodeException("Failed to decode claim as Boolean", e);
         }
-        return value.getAsBoolean();
     }
 
     /**
@@ -45,13 +47,15 @@ public class Claim {
      * If the value isn't of type Integer or it can't be converted to an Integer, null will be returned.
      *
      * @return the value as an Integer or null.
+     * @throws DecodeException if the value can't be converted to an Int.
      */
     @Nullable
-    public Integer asInt() {
-        if (!value.isJsonPrimitive()) {
-            return null;
+    public Integer asInt() throws DecodeException {
+        try {
+            return value.getAsInt();
+        } catch (Exception e) {
+            throw new DecodeException("Failed to decode claim as Int", e);
         }
-        return value.getAsInt();
     }
 
     /**
@@ -59,13 +63,15 @@ public class Claim {
      * If the value isn't of type Double or it can't be converted to a Double, null will be returned.
      *
      * @return the value as a Double or null.
+     * @throws DecodeException if the value can't be converted to a Double.
      */
     @Nullable
-    public Double asDouble() {
-        if (!value.isJsonPrimitive()) {
-            return null;
+    public Double asDouble() throws DecodeException {
+        try {
+            return value.getAsDouble();
+        } catch (Exception e) {
+            throw new DecodeException("Failed to decode claim as Double", e);
         }
-        return value.getAsDouble();
     }
 
     /**
@@ -73,13 +79,15 @@ public class Claim {
      * If the value isn't of type String or it can't be converted to a String, null will be returned.
      *
      * @return the value as a String or null.
+     * @throws DecodeException if the value can't be converted to a String.
      */
     @Nullable
-    public String asString() {
-        if (!value.isJsonPrimitive()) {
-            return null;
+    public String asString() throws DecodeException {
+        try {
+            return value.getAsString();
+        } catch (Exception e) {
+            throw new DecodeException("Failed to decode claim as String", e);
         }
-        return value.getAsString();
     }
 
     /**
@@ -87,14 +95,16 @@ public class Claim {
      * If the value can't be converted to a Date, null will be returned.
      *
      * @return the value as a Date or null.
+     * @throws DecodeException if the value can't be converted to a Date.
      */
     @Nullable
-    public Date asDate() {
-        if (!value.isJsonPrimitive()) {
-            return null;
+    public Date asDate() throws DecodeException {
+        try {
+            long ms = Long.parseLong(value.getAsString()) * 1000;
+            return new Date(ms);
+        } catch (Exception e) {
+            throw new DecodeException("Failed to decode claim as Date", e);
         }
-        long ms = Long.parseLong(value.getAsString()) * 1000;
-        return new Date(ms);
     }
 
     /**
@@ -118,7 +128,7 @@ public class Claim {
             }
             return arr;
         } catch (JsonSyntaxException e) {
-            throw new DecodeException("Failed to decode claim as array", e);
+            throw new DecodeException("Failed to decode claim as Array", e);
         }
     }
 
@@ -142,7 +152,7 @@ public class Claim {
             }
             return list;
         } catch (JsonSyntaxException e) {
-            throw new DecodeException("Failed to decode claim as list", e);
+            throw new DecodeException("Failed to decode claim as List", e);
         }
     }
 }

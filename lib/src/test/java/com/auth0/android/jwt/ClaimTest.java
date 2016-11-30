@@ -2,7 +2,6 @@ package com.auth0.android.jwt;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonSyntaxException;
 
 import org.hamcrest.collection.IsArrayWithSize;
 import org.hamcrest.collection.IsEmptyCollection;
@@ -19,7 +18,6 @@ import java.util.Date;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.collection.IsArrayContainingInOrder.arrayContaining;
 import static org.hamcrest.core.IsCollectionContaining.hasItems;
 import static org.junit.Assert.assertThat;
@@ -29,7 +27,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 @Config(constants = BuildConfig.class, sdk = 23)
 public class ClaimTest {
 
-    Gson gson;
+    private Gson gson;
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
@@ -49,11 +47,12 @@ public class ClaimTest {
     }
 
     @Test
-    public void shouldGetNullBooleanIfNotPrimitiveValue() throws Exception {
+    public void shouldThrowIfBooleanNotPrimitiveValue() throws Exception {
         JsonElement value = gson.toJsonTree(new Object());
         Claim claim = new Claim(value);
 
-        assertThat(claim.asBoolean(), is(nullValue()));
+        exception.expect(DecodeException.class);
+        claim.asBoolean();
     }
 
     @Test
@@ -66,11 +65,12 @@ public class ClaimTest {
     }
 
     @Test
-    public void shouldGetNullIntIfNotPrimitiveValue() throws Exception {
+    public void shouldThrowIfIntNotPrimitiveValue() throws Exception {
         JsonElement value = gson.toJsonTree(new Object());
         Claim claim = new Claim(value);
 
-        assertThat(claim.asInt(), is(nullValue()));
+        exception.expect(DecodeException.class);
+        claim.asInt();
     }
 
     @Test
@@ -83,11 +83,12 @@ public class ClaimTest {
     }
 
     @Test
-    public void shouldGetNullDoubleIfNotPrimitiveValue() throws Exception {
+    public void shouldThrowIfDoubleNotPrimitiveValue() throws Exception {
         JsonElement value = gson.toJsonTree(new Object());
         Claim claim = new Claim(value);
 
-        assertThat(claim.asDouble(), is(nullValue()));
+        exception.expect(DecodeException.class);
+        claim.asDouble();
     }
 
     @Test
@@ -100,11 +101,12 @@ public class ClaimTest {
     }
 
     @Test
-    public void shouldGetNullDateIfNotPrimitiveValue() throws Exception {
+    public void shouldThrowIfDateNotPrimitiveValue() throws Exception {
         JsonElement value = gson.toJsonTree(new Object());
         Claim claim = new Claim(value);
 
-        assertThat(claim.asDate(), is(nullValue()));
+        exception.expect(DecodeException.class);
+        claim.asDate();
     }
 
     @Test
@@ -117,11 +119,12 @@ public class ClaimTest {
     }
 
     @Test
-    public void shouldGetNullStringIfNotPrimitiveValue() throws Exception {
+    public void shouldThrowIfStringNotPrimitiveValue() throws Exception {
         JsonElement value = gson.toJsonTree(new Object());
         Claim claim = new Claim(value);
 
-        assertThat(claim.asString(), is(nullValue()));
+        exception.expect(DecodeException.class);
+        claim.asString();
     }
 
     @Test
