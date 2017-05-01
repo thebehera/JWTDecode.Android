@@ -132,14 +132,14 @@ public class JWT implements Parcelable {
     }
 
     /**
-     * Get a Private Claim given it's name. If the Claim wasn't specified in the JWT payload, null will be returned.
+     * Get a Private Claim given it's name. If the Claim wasn't specified in the JWT payload, a BaseClaim will be returned.
      *
      * @param name the name of the Claim to retrieve.
-     * @return the Claim if found or null.
+     * @return a valid Claim.
      */
-    @Nullable
+    @NonNull
     public Claim getClaim(@NonNull String name) {
-        return payload.extra.get(name);
+        return payload.claimForName(name);
     }
 
     /**
@@ -228,15 +228,18 @@ public class JWT implements Parcelable {
     }
 
     private <T> T parseJson(String json, Type typeOfT) {
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(JWTPayload.class, new JWTDeserializer())
-                .create();
         T payload;
         try {
-            payload = gson.fromJson(json, typeOfT);
+            payload = getGson().fromJson(json, typeOfT);
         } catch (Exception e) {
             throw new DecodeException("The token's payload had an invalid JSON format.", e);
         }
         return payload;
+    }
+
+    static Gson getGson() {
+        return new GsonBuilder()
+                .registerTypeAdapter(JWTPayload.class, new JWTDeserializer())
+                .create();
     }
 }
