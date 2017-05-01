@@ -1,7 +1,8 @@
 # JWTDecode.Android
 
-[![Build Status](https://travis-ci.org/auth0/JWTDecode.Android.svg?branch=master)](https://travis-ci.org/auth0/JWTDecode.Android)
+[![CircleCI](https://img.shields.io/circleci/project/github/auth0/JWTDecode.Android.svg?style=flat-square)](https://circleci.com/gh/auth0/JWTDecode.Android/tree/master)
 [![codecov](https://codecov.io/gh/auth0/JWTDecode.android/branch/master/graph/badge.svg)](https://codecov.io/gh/auth0/JWTDecode.android)
+[ ![Download](https://api.bintray.com/packages/auth0/android/jwtdecode/images/download.svg) ](https://bintray.com/auth0/android/jwtdecode/_latestVersion)
 
 Java library with focus on Android that provides Json Web Token (JWT) decoding.
 
@@ -9,7 +10,7 @@ Java library with focus on Android that provides Json Web Token (JWT) decoding.
 The library is be available both in Maven Central and JCenter. To start using it add this line to your `build.gradle` dependencies file:
 
 ```groovy
-compile 'com.auth0.android:jwtdecode:1.0.0'
+compile 'com.auth0.android:jwtdecode:1.1.1'
 ```
 
 ## Usage
@@ -95,7 +96,7 @@ boolean isExpired = jwt.isExpired(10); // 10 seconds leeway
 
 ### Private Claims
 
-Additional Claims defined in the token can be obtained by calling `getClaim` and passing the Claim name. If the claim can't be found, null will be returned.
+Additional Claims defined in the token can be obtained by calling `getClaim` and passing the Claim name. If the claim can't be found, a BaseClaim will be returned. BaseClaim will return null on every method call except for the `asList` and `asArray`.
 
 ```java
 Claim claim = jwt.getClaim("isAdmin");
@@ -174,7 +175,7 @@ If you have found a bug or if you have a feature request, please report them at 
 
 ## Author
 
-[Auth0](auth0.com)
+[Auth0](https://auth0.com)
 
 ## License
 
